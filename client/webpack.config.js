@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const WebpackChunkHash = require('webpack-chunk-hash')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
@@ -13,6 +12,7 @@ function _isVendor(module) {
 const isProd = process.env.NODE_ENV === 'production'
 
 const config = {
+  context: __dirname,
   entry: {
     app: [
       'babel-polyfill',
@@ -56,14 +56,13 @@ const config = {
       : new webpack.NamedModulesPlugin(),
 
     new HtmlWebpackPlugin({
-      alwaysWriteToDisk: true,
+      title: 'Simple forum',
       template: './index.html',
       filename: 'index.html',
       inject: 'body',
       cashe: true,
       showErrors: true
     }),
-    new HtmlWebpackHarddiskPlugin(),
 
     new WebpackChunkHash(),
 
