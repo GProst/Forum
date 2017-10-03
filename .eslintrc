@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": [
+    "standard",
+    "standard-jsx"
+  ],
+  "rules": {
+    "space-before-function-paren": ["error", "never"],
+    "object-curly-spacing": ["error", "never"]
+  }
+}
