@@ -1,7 +1,7 @@
 {
-  "name": "exam-node-project",
+  "name": "exam-node-project-server",
   "version": "1.0.0",
-  "description": "Simple forum with Node.js backend and React.js frontend",
+  "description": "Simple forum server written with Node.js",
   "author": "GProst a.k.a German Prostakov <gprostmail@gmail.com>",
   "license": "MIT"
 }
