@@ -4,5 +4,5 @@ export const Routes = {
     template: '/messages/:id',
     path: (id) => `/messages/${id}`
   },
-  createMessage: '/messages/new'
+  createMessage: '/messages/create'
 }

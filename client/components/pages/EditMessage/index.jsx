@@ -11,6 +11,7 @@ const Error = styled.div`
   font-weight: bold;
 `
 
+// TODO: create redirect if ID is not a number!
 export default class MessagePage extends React.Component {
   static propTypes = {
     match: PropTypes.shape({
