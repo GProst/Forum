@@ -115,6 +115,9 @@ const connector = connect(
   (dispatch) => ({
     goToMessageListPage() {
       dispatch(push(Routes.messagesList))
+    },
+    goToMessagePage(id) {
+      dispatch(push(Routes.editMessage.path(id)))
     }
   })
 )
@@ -130,7 +133,8 @@ class MessageTemplate extends React.Component {
     disabled: PropTypes.bool,
     type: PropTypes.oneOf(['update', 'create']).isRequired,
     status: PropTypes.string,
-    goToMessageListPage: PropTypes.func.isRequired
+    goToMessageListPage: PropTypes.func.isRequired,
+    goToMessagePage: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -184,6 +188,31 @@ class MessageTemplate extends React.Component {
     this.setState({
       portalIsOpen: true
     })
+  }
+
+  createMessage = () => {
+    this.setState({
+      disabled: true,
+      error: null,
+      status: 'Creating message...'
+    })
+    const {headerValue, bodyValue} = this.state
+    api.createMessage({
+      header: headerValue,
+      body: bodyValue
+    })
+      .then((messageId) => {
+        this.props.goToMessagePage(messageId)
+      })
+      .catch(err => {
+        console.error()
+        this.setState({
+          disabled: false,
+          status: null,
+          error: `Error while creating new message`
+        })
+        throw err
+      })
   }
 
   onMessageDeleted = () => {
