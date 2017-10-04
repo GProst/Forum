@@ -38,4 +38,14 @@ ___
 
 ## Used technologies
 
-* TODO
+* ReactJS
+
+* Redux
+
+* Webpack
+
+* Babel
+
+* Styled-components
+
+* Eslint
