@@ -78,6 +78,10 @@ const CreateButton = styled.button`
   }
 `
 
+const Fetching = styled.h1`
+  align-self: flex-start;
+`
+
 const connector = connect(
   (state) => ({}),
   (dispatch) => ({
@@ -95,13 +99,17 @@ class MessagesPage extends React.Component {
   state = {
     messages: [],
     portalIsOpen: false,
-    selectedMessage: null
+    selectedMessage: null,
+    messagesFetched: false
   }
 
   fetchMessages() {
     api.fetchMessages()
       .then(messages => {
-        this.setState({messages})
+        this.setState({
+          messages,
+          messagesFetched: true
+        })
       })
       .catch(err => {
         console.error('Error while fetching messages')
@@ -132,14 +140,14 @@ class MessagesPage extends React.Component {
   }
 
   render() {
-    const {messages, selectedMessage} = this.state
+    const {messages, selectedMessage, messagesFetched} = this.state
 
     return (
       <Wrapper>
         <Content>
-          <CreateButton onClick={this.props.createNewMessage}>Create new message</CreateButton>
-          {messages.length === 0
-            ? <h1>Fetching messages...</h1>
+          {messagesFetched && <CreateButton onClick={this.props.createNewMessage}>Create new message</CreateButton>}
+          {!messagesFetched
+            ? <Fetching>Fetching messages...</Fetching>
             : (
               messages.map(message => (
                 <Message key={message.id}>
