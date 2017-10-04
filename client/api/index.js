@@ -5,12 +5,13 @@ export default {
     return new Promise((resolve, reject) => {
       setTimeout(() => { // TODO: real request
         resolve(messagesList)
-      }, 2000)
+      }, 500)
     })
       .catch((err) => {
         throw err
       })
   },
+
   fetchMessage(id) {
     return new Promise((resolve, reject) => {
       setTimeout(() => { // TODO: real request
@@ -19,17 +20,29 @@ export default {
           header: `Message #${id}`,
           body: `This is a body of message #${id}`
         })
-      }, 2000)
+      }, 500)
     })
       .catch((err) => {
         throw err
       })
   },
+
   deleteMessage(id) {
     return new Promise((resolve, reject) => {
       setTimeout(() => { // TODO: real request
         resolve(true)
-      }, 2000)
+      }, 500)
+    })
+      .catch((err) => {
+        throw err
+      })
+  },
+
+  updateMessage(message) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => { // TODO: real request
+        resolve(true)
+      }, 500)
     })
       .catch((err) => {
         throw err

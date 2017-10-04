@@ -4,6 +4,7 @@ import styled, {css} from 'styled-components'
 import {Link} from 'react-router-dom'
 
 import {Routes} from '../../routes'
+import api from '../../api'
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const BodyInput = styled.textarea`
   padding: 20px;
 `
 
-const Footer = styled.div`
+const ButtonSection = styled.div`
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
@@ -74,6 +75,18 @@ const Button = styled.button`
   `}
 `
 
+const StatusSection = styled.div`
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+`
+
+const Error = styled.div`
+  color: red;
+  font-weight: bold;
+`
+
 export default class MessageTemplate extends React.Component {
   static propTypes = {
     message: PropTypes.shape({
@@ -93,7 +106,35 @@ export default class MessageTemplate extends React.Component {
 
   state = {
     headerValue: this.props.message ? this.props.message.header : '',
-    bodyValue: this.props.message ? this.props.message.body : ''
+    bodyValue: this.props.message ? this.props.message.body : '',
+    disabled: false,
+    error: null
+  }
+
+  saveChanges = () => {
+    this.setState({
+      disabled: true,
+      error: null
+    })
+    api.updateMessage({
+      id: this.props.message.id,
+      header: this.state.headerValue,
+      body: this.state.bodyValue
+    })
+      .then(() => {
+        this.setState({
+          disabled: false
+        })
+        console.log('Updated!')
+      })
+      .catch(err => {
+        console.error()
+        this.setState({
+          disabled: false,
+          error: `Error while updating message with id = ${this.props.message.id}`
+        })
+        throw err
+      })
   }
 
   onInputChange(field, event) {
@@ -114,8 +155,10 @@ export default class MessageTemplate extends React.Component {
 
   render() {
     const {message} = this.props
-    const disabled = this.props.disabled || this.props.pending
-    const {headerValue, bodyValue} = this.state
+    const disabled = this.state.disabled || this.props.disabled || this.props.pending
+    const {headerValue, bodyValue, error} = this.state
+
+    const notUpdated = message && (headerValue === message.header && bodyValue === message.body)
 
     return (
       <Wrapper>
@@ -126,21 +169,24 @@ export default class MessageTemplate extends React.Component {
               <HeadInput disabled={disabled} value={headerValue} onChange={this.onInputChange.bind(this, 'headerValue')} />
               <h2>Body:</h2>
               <BodyInput disabled={disabled} value={bodyValue} onChange={this.onInputChange.bind(this, 'bodyValue')} />
-              <Footer>
+              <ButtonSection>
                 <Link to={Routes.messagesList}>Back to messages list</Link>
                 {this.props.type === 'update'
                   ? (
-                    <Button type='button' disabled={disabled}>
+                    <Button type='button' disabled={notUpdated || disabled} onClick={this.saveChanges}>
                       Save changes
                     </Button>
                   )
                   : (
-                    <Button type='button' disabled={disabled}>
+                    <Button type='button' disabled={notUpdated || disabled} onClick={this.createMessage}>
                       Create message
                     </Button>
                   )
                 }
-              </Footer>
+              </ButtonSection>
+              <StatusSection>
+                {error && <Error>{error}</Error>}
+              </StatusSection>
             </div>
           )
           : <h2>Fetching message data...</h2>
