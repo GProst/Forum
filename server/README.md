@@ -1,4 +1,4 @@
-# Simple forum
+# Simple forum server
 
 ## Install
 
@@ -16,6 +16,4 @@ ___
 
 ## Used technologies
 
-* TODO: client link
-
-* TODO: server link
+* TODO
