@@ -58,14 +58,29 @@ export default class MessagesPage extends React.Component {
   }
 
   deleteMessage(id) {
-    console.log('delete message with id =', id)
+    api.deleteMessage(id)
+      .then(() => {
+        console.log('message deleted successfully')
+      })
+      .catch(err => {
+        console.error('Error while deleting message with id =', id)
+        throw err
+      })
   }
 
-  componentWillMount() {
+  fetchMessages() {
     api.fetchMessages()
       .then(messages => {
         this.setState({messages})
       })
+      .catch(err => {
+        console.error('Error while fetching messages')
+        throw err
+      })
+  }
+
+  componentWillMount() {
+    this.fetchMessages()
   }
 
   render() {

@@ -24,5 +24,15 @@ export default {
       .catch((err) => {
         throw err
       })
+  },
+  deleteMessage(id) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => { // TODO: real request
+        resolve(true)
+      }, 2000)
+    })
+      .catch((err) => {
+        throw err
+      })
   }
 }
