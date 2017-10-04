@@ -5,11 +5,12 @@ import history from '../../history'
 
 export function createStore() {
   const middleware = [routerMiddleware(history)]
-  const toCompose = [applyMiddleware(...middleware)]
 
   if (process.env.NODE_ENV !== 'production') {
-    // TODO: redux logger
+    middleware.push(require('redux-logger').createLogger())
   }
+
+  const toCompose = [applyMiddleware(...middleware)]
 
   let enchancer = compose(...toCompose)
 
