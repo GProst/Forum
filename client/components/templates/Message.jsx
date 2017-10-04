@@ -2,6 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, {css} from 'styled-components'
 import {Link} from 'react-router-dom'
+import {push} from 'react-router-redux'
+import {connect} from 'react-redux'
+import Portal from 'react-portal'
+
+import ModalContainer from '../bricks/ModalContainer'
+import DeleteModal from '../bricks/DeleteModal'
 
 import {Routes} from '../../routes'
 import api from '../../api'
@@ -104,7 +110,16 @@ const Status = styled.div`
   font-weight: bold;
 `
 
-export default class MessageTemplate extends React.Component {
+const connector = connect(
+  (state) => ({}),
+  (dispatch) => ({
+    goToMessageListPage() {
+      dispatch(push(Routes.messagesList))
+    }
+  })
+)
+
+class MessageTemplate extends React.Component {
   static propTypes = {
     message: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -114,7 +129,8 @@ export default class MessageTemplate extends React.Component {
     pending: PropTypes.bool,
     disabled: PropTypes.bool,
     type: PropTypes.oneOf(['update', 'create']).isRequired,
-    status: PropTypes.string
+    status: PropTypes.string,
+    goToMessageListPage: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -129,7 +145,8 @@ export default class MessageTemplate extends React.Component {
     bodyValue: this.props.message ? this.props.message.body : '',
     disabled: false,
     error: null,
-    status: this.props.status
+    status: this.props.status,
+    portalIsOpen: false
   }
 
   saveChanges = () => {
@@ -156,10 +173,27 @@ export default class MessageTemplate extends React.Component {
         console.error()
         this.setState({
           disabled: false,
+          status: null,
           error: `Error while updating message with id = ${this.props.message.id}`
         })
         throw err
       })
+  }
+
+  deleteMessage = () => {
+    this.setState({
+      portalIsOpen: true
+    })
+  }
+
+  onMessageDeleted = () => {
+    this.props.goToMessageListPage()
+  }
+
+  onModalClose = () => {
+    if (this.wrapper) {
+      this.setState({portalIsOpen: false})
+    }
   }
 
   onInputChange(field, event) {
@@ -194,7 +228,7 @@ export default class MessageTemplate extends React.Component {
     const notUpdated = message && (headerValue === headerInitialValue && bodyValue === bodyInitialValue)
 
     return (
-      <Wrapper>
+      <Wrapper innerRef={elem => { this.wrapper = elem }}>
         {message
           ? (
             <div>
@@ -224,6 +258,11 @@ export default class MessageTemplate extends React.Component {
                 {error && <Error>{error}</Error>}
                 {status && <Status>{status}</Status>}
               </StatusSection>
+              <Portal isOpened={this.state.portalIsOpen}>
+                <ModalContainer>
+                  <DeleteModal onModalClose={this.onModalClose} onMessageDeleted={this.onMessageDeleted} message={message} />
+                </ModalContainer>
+              </Portal>
             </div>
           )
           : <h2>Fetching message data...</h2>
@@ -232,3 +271,5 @@ export default class MessageTemplate extends React.Component {
     )
   }
 }
+
+export default connector(MessageTemplate)

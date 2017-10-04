@@ -7,7 +7,7 @@ import api from '../../../api'
 import {Routes} from '../../../routes'
 
 import ModalContainer from '../../bricks/ModalContainer'
-import DeleteModal from './DeleteModal'
+import DeleteModal from '../../bricks/DeleteModal'
 
 const Wrapper = styled.div`
   display: flex;
