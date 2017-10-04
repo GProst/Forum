@@ -59,19 +59,8 @@ const DeleteButton = styled.button`
 export default class MessagesPage extends React.Component {
   state = {
     messages: [],
-    portalIsOpen: false
-  }
-
-  deleteMessage(id) {
-    this.setState({portalIsOpen: true})
-    api.deleteMessage(id)
-      .then(() => {
-        console.log('message deleted successfully')
-      })
-      .catch(err => {
-        console.error('Error while deleting message with id =', id)
-        throw err
-      })
+    portalIsOpen: false,
+    selectedMessage: null
   }
 
   fetchMessages() {
@@ -85,12 +74,30 @@ export default class MessagesPage extends React.Component {
       })
   }
 
+  deleteMessage(message) {
+    this.setState({
+      portalIsOpen: true,
+      selectedMessage: message
+    })
+  }
+
+  onMessageDeleted = (id) => {
+    const index = this.state.messages.findIndex(message => message.id === id)
+    const updatedMessages = this.state.messages.slice()
+    updatedMessages.splice(index, 1)
+    this.setState({messages: updatedMessages})
+  }
+
+  onModalClose = () => {
+    this.setState({portalIsOpen: false})
+  }
+
   componentWillMount() {
     this.fetchMessages()
   }
 
   render() {
-    const {messages} = this.state
+    const {messages, selectedMessage} = this.state
 
     return (
       <Wrapper>
@@ -103,7 +110,7 @@ export default class MessagesPage extends React.Component {
                   <MessageContent to={Routes.editMessage.path(message.id)}>
                     <h1>{message.header}</h1>
                   </MessageContent>
-                  <DeleteButton type='button' onClick={this.deleteMessage.bind(this, message.id)}>Delete</DeleteButton>
+                  <DeleteButton type='button' onClick={this.deleteMessage.bind(this, message)}>Delete</DeleteButton>
                 </Message>
               ))
             )
@@ -111,7 +118,7 @@ export default class MessagesPage extends React.Component {
         </Content>
         <Portal isOpened={this.state.portalIsOpen}>
           <ModalContainer>
-            <DeleteModal />
+            <DeleteModal onModalClose={this.onModalClose} onMessageDeleted={this.onMessageDeleted} message={selectedMessage} />
           </ModalContainer>
         </Portal>
       </Wrapper>
