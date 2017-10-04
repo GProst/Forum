@@ -4,6 +4,10 @@
   "description": "Simple forum with Node.js backend and React.js frontend",
   "author": "GProst a.k.a German Prostakov <gprostmail@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore ./",
+    "precommit": "lint-staged"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
@@ -17,5 +21,11 @@
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.14.3",
     "lint-staged": "^4.2.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint",
+      "git add"
+    ]
   }
 }
