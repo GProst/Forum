@@ -4,6 +4,11 @@
   "description": "Simple forum written with React.js",
   "author": "GProst a.k.a German Prostakov <gprostmail@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build-dev": "webpack",
+    "build-prod": "../node_modules/.bin/cross-env NODE_ENV=production webpack"
+  },
   "devDependencies": {
     "babel-loader": "^7.1.2",
     "babel-plugin-styled-components": "^1.2.1",

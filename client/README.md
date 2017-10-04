@@ -10,11 +10,25 @@ npm install
 
 ## Start dev server
 
-* TODO
+* Run
+
+```shell
+npm start -- --output-public-path "http://localhost:3000/" --port 3000
+```
 
 ## Build
 
-* TODO
+* Development version:
+
+```shell
+npm run build-dev -- --output-public-path "http://localhost:3000/"
+```
+
+* Production version:
+
+```shell
+npm run build-prod -- --output-public-path "http://localhost:3000/"
+```
 
 ## Test
 
