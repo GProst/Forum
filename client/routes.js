@@ -1,5 +1,8 @@
 export const Routes = {
   messagesList: '/messages',
-  editMessage: '/messages/:id',
+  editMessage: {
+    template: '/messages/:id',
+    path: (id) => `/messages/${id}`
+  },
   createMessage: '/messages/new'
 }

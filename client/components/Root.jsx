@@ -17,7 +17,7 @@ export default class Root extends React.Component {
         <ConnectedRouter history={history} store={store}>
           <Switch>
             <Route exact path={Routes.messagesList} component={Messages} />
-            <Route exact path={Routes.editMessage} component={Message} />
+            <Route exact path={Routes.editMessage.template} component={Message} />
             <Route exact path={Routes.createMessage} component={Message} />
             <Redirect to={Routes.messagesList} />
           </Switch>
