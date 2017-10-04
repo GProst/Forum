@@ -1,6 +1,4 @@
-// TODO: delete when server is set
-
-export default [{
+module.exports = [{
   id: 1,
   header: 'Message #1',
   body: 'This is a body of message #1'
