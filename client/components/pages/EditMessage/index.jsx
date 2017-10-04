@@ -14,6 +14,11 @@ const Error = styled.div`
 // TODO: create redirect if ID is not a number!
 export default class MessagePage extends React.Component {
   static propTypes = {
+    location: PropTypes.shape({
+      state: PropTypes.shape({
+        status: PropTypes.string
+      })
+    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired
@@ -48,10 +53,11 @@ export default class MessagePage extends React.Component {
 
   render() {
     const disabled = !this.state.message
+    const status = this.props.location.state && this.props.location.state.status
     return (
       this.state.error
         ? <Error>{this.state.error}</Error>
-        : <MessageTemplate disabled={disabled} pending={this.state.pending} message={this.state.message} />
+        : <MessageTemplate disabled={disabled} pending={this.state.pending} message={this.state.message} status={status} />
     )
   }
 }
