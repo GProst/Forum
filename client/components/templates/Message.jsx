@@ -63,7 +63,7 @@ const Button = styled.button`
   
   ${props => !props.disabled && css`
   :hover {
-    background: grey;
+    background: seagreen;
     color: white;
   }
   `}
@@ -72,6 +72,18 @@ const Button = styled.button`
   cursor: not-allowed;
   opacity: 0.7;
   background: #ececec;
+  `}
+`
+
+const DeleteButton = styled(Button)`
+  margin-left: auto;
+  margin-right: 40px;
+
+  ${props => !props.disabled && css`
+  :hover {
+    background: red;
+    color: white;
+  }
   `}
 `
 
@@ -87,6 +99,11 @@ const Error = styled.div`
   font-weight: bold;
 `
 
+const Status = styled.div`
+  color: #166086;
+  font-weight: bold;
+`
+
 export default class MessageTemplate extends React.Component {
   static propTypes = {
     message: PropTypes.shape({
@@ -96,7 +113,8 @@ export default class MessageTemplate extends React.Component {
     }),
     pending: PropTypes.bool,
     disabled: PropTypes.bool,
-    type: PropTypes.oneOf(['update', 'create']).isRequired
+    type: PropTypes.oneOf(['update', 'create']).isRequired,
+    status: PropTypes.string
   }
 
   static defaultProps = {
@@ -105,27 +123,34 @@ export default class MessageTemplate extends React.Component {
   }
 
   state = {
+    headerInitialValue: this.props.message ? this.props.message.header : '',
     headerValue: this.props.message ? this.props.message.header : '',
+    bodyInitialValue: this.props.message ? this.props.message.body : '',
     bodyValue: this.props.message ? this.props.message.body : '',
     disabled: false,
-    error: null
+    error: null,
+    status: this.props.status
   }
 
   saveChanges = () => {
     this.setState({
       disabled: true,
-      error: null
+      error: null,
+      status: 'Updating message...'
     })
+    const {headerValue, bodyValue} = this.state
     api.updateMessage({
       id: this.props.message.id,
-      header: this.state.headerValue,
-      body: this.state.bodyValue
+      header: headerValue,
+      body: bodyValue
     })
       .then(() => {
         this.setState({
-          disabled: false
+          disabled: false,
+          headerInitialValue: headerValue,
+          bodyInitialValue: bodyValue,
+          status: 'Message updated successfully'
         })
-        console.log('Updated!')
       })
       .catch(err => {
         console.error()
@@ -140,7 +165,8 @@ export default class MessageTemplate extends React.Component {
   onInputChange(field, event) {
     const {value} = event.target
     this.setState({
-      [field]: value
+      [field]: value,
+      status: null
     })
   }
 
@@ -150,15 +176,22 @@ export default class MessageTemplate extends React.Component {
         headerValue: nextProps.message.header,
         bodyValue: nextProps.message.body
       })
+
+      if (!this.props.message) {
+        this.setState({
+          headerInitialValue: nextProps.message.header,
+          bodyInitialValue: nextProps.message.body
+        })
+      }
     }
   }
 
   render() {
     const {message} = this.props
     const disabled = this.state.disabled || this.props.disabled || this.props.pending
-    const {headerValue, bodyValue, error} = this.state
+    const {headerValue, bodyValue, headerInitialValue, bodyInitialValue, error, status} = this.state
 
-    const notUpdated = message && (headerValue === message.header && bodyValue === message.body)
+    const notUpdated = message && (headerValue === headerInitialValue && bodyValue === bodyInitialValue)
 
     return (
       <Wrapper>
@@ -171,6 +204,9 @@ export default class MessageTemplate extends React.Component {
               <BodyInput disabled={disabled} value={bodyValue} onChange={this.onInputChange.bind(this, 'bodyValue')} />
               <ButtonSection>
                 <Link to={Routes.messagesList}>Back to messages list</Link>
+                <DeleteButton type='button' disabled={disabled} onClick={this.deleteMessage}>
+                  DeleteMessage
+                </DeleteButton>
                 {this.props.type === 'update'
                   ? (
                     <Button type='button' disabled={notUpdated || disabled} onClick={this.saveChanges}>
@@ -186,6 +222,7 @@ export default class MessageTemplate extends React.Component {
               </ButtonSection>
               <StatusSection>
                 {error && <Error>{error}</Error>}
+                {status && <Status>{status}</Status>}
               </StatusSection>
             </div>
           )
