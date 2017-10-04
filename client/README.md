@@ -2,7 +2,11 @@
 
 ## Install
 
-* TODO
+* Run:
+
+```shell
+npm install
+```
 
 ## Start dev server
 

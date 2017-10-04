@@ -10,7 +10,11 @@
 
 ## Install
 
-* TODO
+* Run:
+
+```shell
+npm run install-project
+```
 
 ## Bootstrap
 
