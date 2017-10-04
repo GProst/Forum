@@ -117,7 +117,10 @@ const connector = connect(
       dispatch(push(Routes.messagesList))
     },
     goToMessagePage(id) {
-      dispatch(push(Routes.editMessage.path(id)))
+      dispatch(push({
+        pathname: Routes.editMessage.path(id),
+        state: {status: 'Message created successfully'}
+      }))
     }
   })
 )
