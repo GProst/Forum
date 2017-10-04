@@ -56,7 +56,7 @@ const config = {
       : new webpack.NamedModulesPlugin(),
 
     new HtmlWebpackPlugin({
-      title: 'Simple forum',
+      title: 'Forum',
       template: './index.html',
       filename: 'index.html',
       inject: 'body',
