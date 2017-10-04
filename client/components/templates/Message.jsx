@@ -34,7 +34,7 @@ export default class MessageTemplate extends React.Component {
               <Link to={Routes.messagesList}>Go to messages list</Link>
             </div>
           )
-          : <h2>Fetching...</h2>
+          : <h2>Fetching message data...</h2>
         }
       </div>
     )
