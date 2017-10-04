@@ -30,10 +30,6 @@ npm run build-dev -- --output-public-path "http://localhost:3000/"
 npm run build-prod -- --output-public-path "http://localhost:3000/"
 ```
 
-## Test
-
-* TODO
-
 ___
 
 ## Used technologies
