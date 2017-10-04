@@ -1,5 +1,6 @@
 'use strict'
 
+// TODO: nodemon
 const express = require('express')
 const app = express()
 const compression = require('compression')
