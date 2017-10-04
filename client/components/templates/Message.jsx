@@ -22,7 +22,6 @@ export default class MessageTemplate extends React.Component {
   render() {
     const {message} = this.props
     const disabled = this.props.disabled || this.props.pending
-    console.log('message in template', message)
 
     return (
       <div disabled={disabled}>
