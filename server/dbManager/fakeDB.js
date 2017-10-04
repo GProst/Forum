@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = [{
   id: 1,
   header: 'Message #1',

@@ -1,27 +1,17 @@
-import messagesList from './fake-messages-list'
+import axios from 'axios'
 
 export default {
   fetchMessages() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => { // TODO: real request
-        resolve(messagesList)
-      }, 500)
-    })
+    return axios.get('/api/messages')
+      .then(response => response.data.messages)
       .catch((err) => {
         throw err
       })
   },
 
   fetchMessage(id) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => { // TODO: real request
-        resolve({
-          id,
-          header: `Message #${id}`,
-          body: `This is a body of message #${id}`
-        })
-      }, 500)
-    })
+    return axios.get(`/api/messages/${id}`)
+      .then(response => response.data)
       .catch((err) => {
         throw err
       })
