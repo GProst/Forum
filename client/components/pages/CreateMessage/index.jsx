@@ -1,3 +1,11 @@
 import React from 'react'
 
-export default () => <div>New message page!</div>
+import MessageTemplate from '../../templates/Message'
+
+class CreateMessagePage extends React.Component {
+  render() {
+    return <MessageTemplate type='create' />
+  }
+}
+
+export default CreateMessagePage

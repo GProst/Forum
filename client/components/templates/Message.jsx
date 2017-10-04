@@ -221,15 +221,16 @@ class MessageTemplate extends React.Component {
   }
 
   render() {
-    const {message} = this.props
+    const {message, type} = this.props
     const disabled = this.state.disabled || this.props.disabled || this.props.pending
     const {headerValue, bodyValue, headerInitialValue, bodyInitialValue, error, status} = this.state
 
     const notUpdated = message && (headerValue === headerInitialValue && bodyValue === bodyInitialValue)
+    const emptyHeader = headerValue === ''
 
     return (
       <Wrapper innerRef={elem => { this.wrapper = elem }}>
-        {message
+        {message || type === 'create'
           ? (
             <div>
               <h1>Header:</h1>
@@ -238,17 +239,19 @@ class MessageTemplate extends React.Component {
               <BodyInput disabled={disabled} value={bodyValue} onChange={this.onInputChange.bind(this, 'bodyValue')} />
               <ButtonSection>
                 <Link to={Routes.messagesList}>Back to messages list</Link>
-                <DeleteButton type='button' disabled={disabled} onClick={this.deleteMessage}>
-                  DeleteMessage
-                </DeleteButton>
+                {message && (
+                  <DeleteButton type='button' disabled={disabled} onClick={this.deleteMessage}>
+                    DeleteMessage
+                  </DeleteButton>
+                )}
                 {this.props.type === 'update'
                   ? (
-                    <Button type='button' disabled={notUpdated || disabled} onClick={this.saveChanges}>
+                    <Button type='button' disabled={emptyHeader || notUpdated || disabled} onClick={this.saveChanges}>
                       Save changes
                     </Button>
                   )
                   : (
-                    <Button type='button' disabled={notUpdated || disabled} onClick={this.createMessage}>
+                    <Button type='button' disabled={emptyHeader || disabled} onClick={this.createMessage}>
                       Create message
                     </Button>
                   )
@@ -258,11 +261,13 @@ class MessageTemplate extends React.Component {
                 {error && <Error>{error}</Error>}
                 {status && <Status>{status}</Status>}
               </StatusSection>
-              <Portal isOpened={this.state.portalIsOpen}>
-                <ModalContainer>
-                  <DeleteModal onModalClose={this.onModalClose} onMessageDeleted={this.onMessageDeleted} message={message} />
-                </ModalContainer>
-              </Portal>
+              {message && (
+                <Portal isOpened={this.state.portalIsOpen}>
+                  <ModalContainer>
+                    <DeleteModal onModalClose={this.onModalClose} onMessageDeleted={this.onMessageDeleted} message={message} />
+                  </ModalContainer>
+                </Portal>
+              )}
             </div>
           )
           : <h2>Fetching message data...</h2>

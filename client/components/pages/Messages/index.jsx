@@ -2,6 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import Portal from 'react-portal'
+import PropTypes from 'prop-types'
+import {push} from 'react-router-redux'
+import {connect} from 'react-redux'
 
 import api from '../../../api'
 import {Routes} from '../../../routes'
@@ -19,12 +22,16 @@ const Wrapper = styled.div`
 `
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   background-color: whitesmoke;
   padding: 20px 30px;
 `
 
 const Message = styled.div`
-  margin: 30px 0;
+  margin: 15px 0;
+  align-self: stretch;
   position: relative;
 `
 
@@ -56,7 +63,35 @@ const DeleteButton = styled.button`
   }
 `
 
-export default class MessagesPage extends React.Component {
+const CreateButton = styled.button`
+  padding: 5px 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid grey;
+  outline: none;
+  background: whitesmoke;
+  
+  :hover {
+    background: grey;
+    color: white;
+  }
+`
+
+const connector = connect(
+  (state) => ({}),
+  (dispatch) => ({
+    createNewMessage() {
+      dispatch(push(Routes.createMessage))
+    }
+  })
+)
+
+class MessagesPage extends React.Component {
+  static propTypes = {
+    createNewMessage: PropTypes.func.isRequired
+  }
+
   state = {
     messages: [],
     portalIsOpen: false,
@@ -102,6 +137,7 @@ export default class MessagesPage extends React.Component {
     return (
       <Wrapper>
         <Content>
+          <CreateButton onClick={this.props.createNewMessage}>Create new message</CreateButton>
           {messages.length === 0
             ? <h1>Fetching messages...</h1>
             : (
@@ -125,3 +161,5 @@ export default class MessagesPage extends React.Component {
     )
   }
 }
+
+export default connector(MessagesPage)
