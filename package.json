@@ -4,6 +4,10 @@
   "description": "Simple forum with Node.js backend and React.js frontend",
   "author": "GProst a.k.a German Prostakov <gprostmail@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "^8.6.0",
+    "npm": "^5.4.0"
+  },
   "scripts": {
     "install-project": "npm install && cd ./client && npm install && cd ../server && npm install",
     "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore ./",

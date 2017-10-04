@@ -27,5 +27,14 @@
     "webpack": "^3.6.0",
     "webpack-chunk-hash": "^0.4.0",
     "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "styled-components": "^2.2.1"
   }
 }

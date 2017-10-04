@@ -1,3 +1,6 @@
-console.log('Loaded successfully!')
+import ReactDOM from 'react-dom'
+import React from 'react'
 
-// TODO: add redux-logger
+import Root from './components/Root'
+
+ReactDOM.render(<Root />, document.getElementById('root'))
