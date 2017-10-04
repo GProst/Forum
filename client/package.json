@@ -31,8 +31,10 @@
   },
   "dependencies": {
     "history": "^4.7.2",
+    "prop-types": "^15.6.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
+    "react-portal": "^3.1.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",

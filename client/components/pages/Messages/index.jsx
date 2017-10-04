@@ -1,9 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
+import Portal from 'react-portal'
 
 import api from '../../../api'
 import {Routes} from '../../../routes'
+
+import ModalContainer from '../../bricks/ModalContainer'
+import DeleteModal from './DeleteModal'
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,10 +58,12 @@ const DeleteButton = styled.button`
 
 export default class MessagesPage extends React.Component {
   state = {
-    messages: []
+    messages: [],
+    portalIsOpen: false
   }
 
   deleteMessage(id) {
+    this.setState({portalIsOpen: true})
     api.deleteMessage(id)
       .then(() => {
         console.log('message deleted successfully')
@@ -103,6 +109,11 @@ export default class MessagesPage extends React.Component {
             )
           }
         </Content>
+        <Portal isOpened={this.state.portalIsOpen}>
+          <ModalContainer>
+            <DeleteModal />
+          </ModalContainer>
+        </Portal>
       </Wrapper>
     )
   }
