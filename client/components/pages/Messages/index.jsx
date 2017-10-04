@@ -65,12 +65,12 @@ const DeleteButton = styled.button`
 
 const CreateButton = styled.button`
   padding: 5px 10px;
-  font-size: 13px;
+  font-size: 16px;
   text-transform: uppercase;
   cursor: pointer;
   border: 1px solid grey;
   outline: none;
-  background: whitesmoke;
+  background: #d8f9f8;
   
   :hover {
     background: grey;
