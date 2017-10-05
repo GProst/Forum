@@ -1,4 +1,4 @@
-# Simple forum server
+# Forum server
 
 ## Install
 

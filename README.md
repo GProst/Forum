@@ -1,4 +1,4 @@
-# Simple forum
+# Forum
 
 ## Requirements
 
@@ -18,6 +18,8 @@ npm run install-project
 
 ## Bootstrap
 
+> **NOTE:** all commands should run in the root project directory!
+
 1. Build client static files:
 
 ```shell
@@ -27,7 +29,7 @@ npm run build
 2. Initialize DB:
 
 ```shell
-npm run build
+npm run initialize-db
 ```
 
 3. Bootstrap server on provided port:
@@ -35,6 +37,15 @@ npm run build
 ```shell
 npm start --port 3000
 ```
+
+4. Enter `localhost` to browser's address bar with corresponding port
+
+Example:
+
+```shell
+localhost:3000
+```
+
 
 ## Test
 

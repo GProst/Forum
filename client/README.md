@@ -1,4 +1,4 @@
-# Simple forum client
+# Forum client
 
 ## Install
 
