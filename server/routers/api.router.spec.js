@@ -5,10 +5,29 @@ const sinon = require('sinon')
 
 const dbManager = require('../db/manager')
 
+const {errorHandler} = require('./api.router')
+
+/* eslint-disable no-unused-expressions */
+
 describe('Checking API router responses', () => {
+  const res = {
+    sendStatus: sinon.spy(),
+    status: sinon.spy(),
+    json: sinon.spy()
+  }
+
+  beforeEach(() => {
+    res.sendStatus.reset()
+    res.status.reset()
+    res.json.reset()
+  })
+
   describe('errorHandler() function', () => {
     it('SHOULD invoke res.sendStatus() with status = 400', () => {
-      expect(2 + 2).to.be.equal(4)
+      expect(res.sendStatus.notCalled).to.be.true
+      errorHandler(res)()
+      expect(res.sendStatus.calledOnce).to.be.true
+      expect(res.sendStatus.args[0][0]).to.be.equal(400)
     })
   })
 

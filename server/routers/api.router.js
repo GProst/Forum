@@ -7,7 +7,7 @@ const router = express.Router()
 const dbManager = require('../db/manager')
 
 const errorHandler = res => err => {
-  winston.error(err)
+  if (process.env.NODE_ENV !== 'test') winston.error(err)
   res.sendStatus(400)
 }
 
