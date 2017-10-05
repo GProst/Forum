@@ -34,7 +34,9 @@ npm run start --port 3000
 
 ## Test
 
-* TODO
+```shell
+npm test
+```
 
 ___
 

@@ -14,7 +14,8 @@
     "precommit": "lint-staged",
     "build": "cd ./client && npm run build-prod",
     "initialize-db": "cd ./server && npm run initialize-db",
-    "start": "cd ./server && npm run start"
+    "start": "cd ./server && npm run start",
+    "test": "cd ./server && npm test"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
