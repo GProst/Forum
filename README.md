@@ -57,9 +57,25 @@ ___
 
 ## Used technologies
 
-* TODO: client link
+* Server:
 
-* TODO: server link
+  * Express.js (Node.js)
+
+* Database:
+
+  * SQLite
+
+* Client:
+
+  * ReactJS
+
+  * Redux
+
+  * Webpack
+
+  * Babel
+
+  * Styled-components
 
 * Unit tests:
 
@@ -68,3 +84,7 @@ ___
   * Chai
 
   * Sinon
+
+* Common:
+
+  * Eslint
