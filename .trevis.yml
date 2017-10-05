@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "8.6.0"
+
+install:
+  - npm i -g npm@5.4.2
+  - npm run install-project
+
+script:
+  - npm run build
+  - npm run initialize-db
+  - npm test
+
+notifications:
+  email:
+    - gprostmail@gmail.com
