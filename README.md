@@ -58,3 +58,11 @@ ___
 * TODO: client link
 
 * TODO: server link
+
+* Unit tests:
+
+  * Mocha
+
+  * Chai
+
+  * Sinon
