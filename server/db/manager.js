@@ -59,9 +59,26 @@ module.exports = {
   },
 
   createMessage(message) {
-    // const id = messages.length + 1
-    // message.id = id
-    // messages.push(message)
-    // return id
+    return new Promise((resolve, reject) => {
+      const {header, body} = message
+      db.serialize(() => {
+        db.run(`
+          INSERT
+          INTO Messages (header, body)
+          VALUES('${header}', '${body}')
+        `, (err) => {
+          if (err) {
+            reject(err)
+          }
+        })
+      })
+
+      db.get('SELECT last_insert_rowid()', (err, row) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(row['last_insert_rowid()'])
+      })
+    })
   }
 }

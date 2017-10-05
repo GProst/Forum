@@ -41,22 +41,26 @@ router.put('/messages/:id', (req, res, next) => {
 
 router.delete('/messages/:id', (req, res, next) => {
   const {id} = req.params
-  try {
-    dbManager.deleteMessage(id)
-    res.sendStatus(200)
-  } catch (err) {
-    res.sendStatus(400)
-  }
+  dbManager.deleteMessage(id)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      winston.error(err)
+      res.sendStatus(400)
+    })
 })
 
 router.post('/messages/create', (req, res, next) => {
   const message = req.body
-  try {
-    const id = dbManager.createMessage(message)
-    res.json({id})
-  } catch (err) {
-    res.sendStatus(400)
-  }
+  dbManager.createMessage(message)
+    .then(id => {
+      res.json({id})
+    })
+    .catch(err => {
+      winston.error(err)
+      res.sendStatus(400)
+    })
 })
 
 router.get('/messages', (req, res, next) => {
