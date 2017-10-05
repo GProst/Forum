@@ -11,6 +11,10 @@ const errorHandler = res => err => {
   res.sendStatus(400)
 }
 
+const sendOK = res => () => {
+  res.sendStatus(200)
+}
+
 router.use(bodyParser.json())
 
 router.get('/messages/:id', (req, res, next) => {
@@ -30,18 +34,14 @@ router.get('/messages/:id', (req, res, next) => {
 router.put('/messages/:id', (req, res, next) => {
   const message = req.body
   dbManager.updateMessage(message)
-    .then(() => {
-      res.sendStatus(200)
-    })
+    .then(sendOK(res))
     .catch(errorHandler(res))
 })
 
 router.delete('/messages/:id', (req, res, next) => {
   const {id} = req.params
   dbManager.deleteMessage(id)
-    .then(() => {
-      res.sendStatus(200)
-    })
+    .then(sendOK(res))
     .catch(errorHandler(res))
 })
 
@@ -68,5 +68,6 @@ router.get('/messages', (req, res, next) => {
 
 module.exports = {
   router,
-  errorHandler
+  errorHandler,
+  sendOK
 }
