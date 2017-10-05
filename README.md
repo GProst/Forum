@@ -18,7 +18,23 @@ npm run install-project
 
 ## Bootstrap
 
-* TODO
+1. Build client static files:
+
+```shell
+npm run build
+```
+
+2. Initialize DB:
+
+```shell
+npm run build
+```
+
+3. Bootstrap server on provided port:
+
+```shell
+npm start --port 3000
+```
 
 ## Test
 

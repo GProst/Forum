@@ -11,7 +11,10 @@
   "scripts": {
     "install-project": "npm install && cd ./client && npm install && cd ../server && npm install",
     "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore ./",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "build": "cd ./client ** npm run build-prod",
+    "initialize-db": "cd ./server ** npm run initialize-db",
+    "start": "cd ./server ** npm run start"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

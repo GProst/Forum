@@ -8,7 +8,17 @@
 npm install
 ```
 
-## Bootstrap
+## Initialize DB
+
+* Run:
+
+```shell
+npm run initialize-db
+```
+
+## Bootstrap server
+
+> **NOTE:** initialize DB before start server!
 
 * For development:
 
@@ -31,3 +41,5 @@ ___
 ## Used technologies
 
 * Express.js
+
+* SQLite 3
