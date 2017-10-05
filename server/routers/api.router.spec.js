@@ -5,7 +5,7 @@ const sinon = require('sinon')
 
 const dbManager = require('../db/manager')
 
-const {errorHandler} = require('./api.router')
+const {errorHandler, sendOK} = require('./api.router')
 
 /* eslint-disable no-unused-expressions */
 
@@ -33,7 +33,10 @@ describe('Checking API router responses', () => {
 
   describe('sendOK() function', () => {
     it('SHOULD invoke res.sendStatus() with status = 200', () => {
-      expect(2 + 2).to.be.equal(4)
+      expect(res.sendStatus.notCalled).to.be.true
+      sendOK(res)()
+      expect(res.sendStatus.calledOnce).to.be.true
+      expect(res.sendStatus.args[0][0]).to.be.equal(200)
     })
   })
 
