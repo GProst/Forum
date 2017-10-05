@@ -6,7 +6,7 @@ const sinon = require('sinon')
 const dbManager = require('../db/manager')
 
 const {
-  errorHandler, sendOK, onMessageGet, onMessageUpdate, onMessageDelete
+  errorHandler, sendOK, onMessageGet, onMessageUpdate, onMessageDelete, onMessageCreate
 } = require('./api.router')
 
 /* eslint-disable no-unused-expressions */
@@ -14,9 +14,10 @@ const {
 describe('Checking API router responses', () => {
   const res = {
     sendStatus: sinon.spy(),
-    status: sinon.spy(),
-    json: sinon.spy()
+    json: sinon.spy(),
+    status: sinon.stub()
   }
+
   const req = {
     params: {
       id: 1
@@ -207,12 +208,37 @@ describe('Checking API router responses', () => {
       dbManager.createMessage.restore()
     })
 
-    it('SHOULD response JSON with "id" field if creating was successful', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD response status 201 and JSON with "id" field if creating was successful', (done) => {
+      const id = Math.random()
+      dbManager.createMessage.returns(Promise.resolve(id))
+      res.status.returns(res)
+      expect(res.json.notCalled).to.be.true
+      expect(res.status.notCalled).to.be.true
+      onMessageCreate(req, res, next)
+        .then(() => {
+          expect(res.json.calledOnce).to.be.true
+          expect(res.status.calledOnce).to.be.true
+          expect(res.status.args[0][0]).to.be.equal(201)
+          expect(res.json.args[0][0].id).to.be.equal(id)
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
 
-    it('SHOULD send status = 400 if there was an error', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD send status = 400 if there was an error', (done) => {
+      dbManager.createMessage.returns(Promise.reject(Error('test')))
+      expect(res.sendStatus.notCalled).to.be.true
+      onMessageCreate(req, res, next)
+        .then(() => {
+          expect(res.sendStatus.calledOnce).to.be.true
+          expect(res.sendStatus.args[0][0]).to.be.equal(400)
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
   })
 
