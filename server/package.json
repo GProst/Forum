@@ -4,10 +4,17 @@
   "description": "Simple forum server written with Node.js",
   "author": "GProst a.k.a German Prostakov <gprostmail@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./index.js",
+    "start-dev": "nodemon ./index.js"
+  },
   "dependencies": {
     "compression": "^1.7.1",
     "express": "^4.16.1",
     "morgan": "^1.9.0",
     "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
   }
 }

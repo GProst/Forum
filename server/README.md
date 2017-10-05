@@ -10,7 +10,17 @@ npm install
 
 ## Bootstrap
 
-* TODO
+* For development:
+
+```shell
+npm run start-dev --port 3000
+```
+
+* For production:
+
+```shell
+npm run start --port 3000
+```
 
 ## Test
 
@@ -20,4 +30,4 @@ ___
 
 ## Used technologies
 
-* TODO
+* Express.js

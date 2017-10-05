@@ -1,12 +1,14 @@
 'use strict'
 
-// TODO: nodemon
 const express = require('express')
 const app = express()
 const compression = require('compression')
 const path = require('path')
 const morgan = require('morgan')
 const winston = require('winston')
+
+const args = process.argv.slice(2)
+const port = args[0] || 3000
 
 const apiRouter = require('./routers/api.router')
 
@@ -22,6 +24,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'))
 })
 
-app.listen(3333, () => {
-  winston.info('Server listening on port 3333!')
+app.listen(port, () => {
+  winston.info(`Server listening on port ${port}!`)
 })
