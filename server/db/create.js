@@ -5,7 +5,7 @@ const del = require('del')
 
 const initialMessages = require('./initialMessages')
 
-const dbFile = path.join(__dirname, '../messages.sqlite3')
+const dbFile = path.join(__dirname, 'messages.sqlite3')
 del.sync([dbFile])
 
 const sqlite3 = require('sqlite3').verbose()
