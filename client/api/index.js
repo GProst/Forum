@@ -32,7 +32,7 @@ export default {
   },
 
   createMessage(message) {
-    return axios.post('/api/messages/create', message)
+    return axios.post('/api/messages', message)
       .then(response => {
         return response.data.id
       })

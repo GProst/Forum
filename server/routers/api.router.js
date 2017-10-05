@@ -53,11 +53,11 @@ const onMessageCreate = (req, res, next) => {
   const message = req.body
   dbManager.createMessage(message)
     .then(id => {
-      res.json({id})
+      res.status(201).json({id})
     })
     .catch(errorHandler(res))
 }
-router.post('/messages/create', onMessageCreate)
+router.post('/messages', onMessageCreate)
 
 const onMessagesGet = (req, res, next) => {
   dbManager.getAllMessages()
