@@ -35,7 +35,7 @@ const onMessageUpdate = (req, res, next) => {
   const {id} = req.params
   const message = req.body
   message.id = id
-  dbManager.updateMessage(message)
+  return dbManager.updateMessage(message)
     .then(sendOK(res))
     .catch(errorHandler(res))
 }
@@ -43,7 +43,7 @@ router.put('/messages/:id', onMessageUpdate)
 
 const onMessageDelete = (req, res, next) => {
   const {id} = req.params
-  dbManager.deleteMessage(id)
+  return dbManager.deleteMessage(id)
     .then(sendOK(res))
     .catch(errorHandler(res))
 }
@@ -51,7 +51,7 @@ router.delete('/messages/:id', onMessageDelete)
 
 const onMessageCreate = (req, res, next) => {
   const message = req.body
-  dbManager.createMessage(message)
+  return dbManager.createMessage(message)
     .then(id => {
       res.status(201).json({id})
     })
@@ -60,7 +60,7 @@ const onMessageCreate = (req, res, next) => {
 router.post('/messages', onMessageCreate)
 
 const onMessagesGet = (req, res, next) => {
-  dbManager.getAllMessages()
+  return dbManager.getAllMessages()
     .then(messages => {
       if (messages) {
         res.json({messages})

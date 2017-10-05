@@ -5,7 +5,7 @@ const sinon = require('sinon')
 
 const dbManager = require('../db/manager')
 
-const {errorHandler, sendOK, onMessageGet} = require('./api.router')
+const {errorHandler, sendOK, onMessageGet, onMessageUpdate} = require('./api.router')
 
 /* eslint-disable no-unused-expressions */
 
@@ -18,6 +18,10 @@ describe('Checking API router responses', () => {
   const req = {
     params: {
       id: 1
+    },
+    body: {
+      header: 'message header',
+      body: 'message body'
     }
   }
   const next = sinon.spy()
@@ -117,12 +121,32 @@ describe('Checking API router responses', () => {
       dbManager.updateMessage.restore()
     })
 
-    it('SHOULD call sendOK() if updating was successful', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD send status = 200 if updating was successful', (done) => {
+      dbManager.updateMessage.returns(Promise.resolve())
+      expect(res.sendStatus.notCalled).to.be.true
+      onMessageUpdate(req, res, next)
+        .then(() => {
+          expect(res.sendStatus.calledOnce).to.be.true
+          expect(res.sendStatus.args[0][0]).to.be.equal(200)
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
 
-    it('SHOULD send status = 400 if there was an error', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD send status = 400 if there was an error', (done) => {
+      dbManager.updateMessage.returns(Promise.reject(Error('test')))
+      expect(res.sendStatus.notCalled).to.be.true
+      onMessageUpdate(req, res, next)
+        .then(() => {
+          expect(res.sendStatus.calledOnce).to.be.true
+          expect(res.sendStatus.args[0][0]).to.be.equal(400)
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
   })
 
@@ -139,7 +163,7 @@ describe('Checking API router responses', () => {
       dbManager.deleteMessage.restore()
     })
 
-    it('SHOULD call sendOK() if updating was successful', () => {
+    it('SHOULD send status = 200 if updating was successful', () => {
       expect(2 + 2).to.be.equal(4)
     })
 
