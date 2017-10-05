@@ -17,8 +17,8 @@ module.exports = {
   },
 
   deleteMessage(id) {
-    const index = messages.findIndex(message => message.id === id)
-    messages.splice(1, index)
+    const index = messages.findIndex(message => message.id === Number(id))
+    messages.splice(index, 1)
   },
 
   createMessage(message) {

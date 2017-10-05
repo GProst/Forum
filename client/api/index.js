@@ -18,11 +18,7 @@ export default {
   },
 
   deleteMessage(id) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => { // TODO: real request
-        resolve(true)
-      }, 500)
-    })
+    return axios.delete(`/api/messages/${id}`)
       .catch((err) => {
         throw err
       })
