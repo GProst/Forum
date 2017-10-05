@@ -6,7 +6,7 @@ const sinon = require('sinon')
 const dbManager = require('../db/manager')
 
 const {
-  errorHandler, sendOK, onMessageGet, onMessageUpdate, onMessageDelete, onMessageCreate
+  errorHandler, sendOK, onMessageGet, onMessageUpdate, onMessageDelete, onMessageCreate, onMessagesGet
 } = require('./api.router')
 
 /* eslint-disable no-unused-expressions */
@@ -255,16 +255,48 @@ describe('Checking API router responses', () => {
       dbManager.getAllMessages.restore()
     })
 
-    it('SHOULD response JSON with "messages" field if messages exist', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD response JSON with "messages" field if messages exist', (done) => {
+      const message = {header: 'message header', body: 'message body'}
+      const messages = [message, message, message]
+      dbManager.getAllMessages.returns(Promise.resolve(messages))
+      expect(res.json.notCalled).to.be.true
+      onMessagesGet(req, res, next)
+        .then(() => {
+          expect(res.json.calledOnce).to.be.true
+          expect(res.json.args[0][0].messages).to.be.equal(messages)
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
 
-    it('SHOULD call next() if there was no message found', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD call next() if there was no messages found', (done) => {
+      const messages = undefined
+      dbManager.getAllMessages.returns(Promise.resolve(messages))
+      expect(next.notCalled).to.be.true
+      onMessagesGet(req, res, next)
+        .then(() => {
+          expect(next.calledOnce).to.be.true
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
 
-    it('SHOULD send status = 400 if there was an error', () => {
-      expect(2 + 2).to.be.equal(4)
+    it('SHOULD send status = 400 if there was an error', (done) => {
+      dbManager.getAllMessages.returns(Promise.reject(Error('test')))
+      expect(res.sendStatus.notCalled).to.be.true
+      onMessagesGet(req, res, next)
+        .then(() => {
+          expect(res.sendStatus.calledOnce).to.be.true
+          expect(res.sendStatus.args[0][0]).to.be.equal(400)
+          done()
+        })
+        .catch(err => {
+          done(err)
+        })
     })
   })
 })
