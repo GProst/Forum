@@ -8,6 +8,11 @@ const dbManager = require('../db/manager')
 
 module.exports = router
 
+const errorHandler = res => err => {
+  winston.error(err)
+  res.sendStatus(400)
+}
+
 router.use(bodyParser.json())
 
 router.get('/messages/:id', (req, res, next) => {
@@ -20,10 +25,7 @@ router.get('/messages/:id', (req, res, next) => {
         next()
       }
     })
-    .catch(err => {
-      winston.error(err)
-      res.sendStatus(400)
-    })
+    .catch(errorHandler(res))
 })
 
 // Update message
@@ -33,10 +35,7 @@ router.put('/messages/:id', (req, res, next) => {
     .then(() => {
       res.sendStatus(200)
     })
-    .catch(err => {
-      winston.error(err)
-      res.sendStatus(400)
-    })
+    .catch(errorHandler(res))
 })
 
 router.delete('/messages/:id', (req, res, next) => {
@@ -45,10 +44,7 @@ router.delete('/messages/:id', (req, res, next) => {
     .then(() => {
       res.sendStatus(200)
     })
-    .catch(err => {
-      winston.error(err)
-      res.sendStatus(400)
-    })
+    .catch(errorHandler(res))
 })
 
 router.post('/messages/create', (req, res, next) => {
@@ -57,10 +53,7 @@ router.post('/messages/create', (req, res, next) => {
     .then(id => {
       res.json({id})
     })
-    .catch(err => {
-      winston.error(err)
-      res.sendStatus(400)
-    })
+    .catch(errorHandler(res))
 })
 
 router.get('/messages', (req, res, next) => {
@@ -72,8 +65,5 @@ router.get('/messages', (req, res, next) => {
         next()
       }
     })
-    .catch(err => {
-      winston.error(err)
-      res.sendStatus(400)
-    })
+    .catch(errorHandler(res))
 })
