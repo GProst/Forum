@@ -6,8 +6,6 @@ const bodyParser = require('body-parser')
 const router = express.Router()
 const dbManager = require('../db/manager')
 
-module.exports = router
-
 const errorHandler = res => err => {
   winston.error(err)
   res.sendStatus(400)
@@ -67,3 +65,8 @@ router.get('/messages', (req, res, next) => {
     })
     .catch(errorHandler(res))
 })
+
+module.exports = {
+  router,
+  errorHandler
+}

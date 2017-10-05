@@ -10,7 +10,7 @@ const winston = require('winston')
 const args = process.argv.slice(2)
 const port = args[0] || 3000
 
-const apiRouter = require('./routers/api.router')
+const apiRouter = require('./routers/api.router').router
 
 app.use(morgan('combined'))
 app.use(compression({level: 9}))
