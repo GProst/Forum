@@ -1,9 +1,10 @@
 'use strict'
 
+const winston = require('winston')
 const express = require('express')
 const bodyParser = require('body-parser')
 const router = express.Router()
-const dbManager = require('../dbManager')
+const dbManager = require('../db/manager')
 
 module.exports = router
 
@@ -11,27 +12,31 @@ router.use(bodyParser.json())
 
 router.get('/messages/:id', (req, res, next) => {
   const {id} = req.params
-  try {
-    const message = dbManager.getMessage(Number(id))
-    if (message) {
-      res.json(message)
-    } else {
-      next()
-    }
-  } catch (err) {
-    res.sendStatus(400)
-  }
+  dbManager.getMessage(Number(id))
+    .then(message => {
+      if (message) {
+        res.json(message)
+      } else {
+        next()
+      }
+    })
+    .catch(err => {
+      winston.error(err)
+      res.sendStatus(400)
+    })
 })
 
 // Update message
 router.put('/messages/:id', (req, res, next) => {
   const message = req.body
-  try {
-    dbManager.updateMessage(message)
-    res.sendStatus(200)
-  } catch (err) {
-    res.sendStatus(400)
-  }
+  dbManager.updateMessage(message)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      winston.error(err)
+      res.sendStatus(400)
+    })
 })
 
 router.delete('/messages/:id', (req, res, next) => {
@@ -55,6 +60,16 @@ router.post('/messages/create', (req, res, next) => {
 })
 
 router.get('/messages', (req, res, next) => {
-  const messages = dbManager.getAllMessages()
-  res.json({messages})
+  dbManager.getAllMessages()
+    .then(messages => {
+      if (messages) {
+        res.json({messages})
+      } else {
+        next()
+      }
+    })
+    .catch(err => {
+      winston.error(err)
+      res.sendStatus(400)
+    })
 })
