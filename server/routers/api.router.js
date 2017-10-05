@@ -19,7 +19,7 @@ router.use(bodyParser.json())
 
 const onMessageGet = (req, res, next) => {
   const {id} = req.params
-  dbManager.getMessage(Number(id))
+  return dbManager.getMessage(Number(id))
     .then(message => {
       if (message) {
         res.json(message)
