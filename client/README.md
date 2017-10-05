@@ -13,7 +13,7 @@ npm install
 * Run
 
 ```shell
-npm start -- --output-public-path "http://localhost:3000/" --port 3000
+npm start -- --output-public-path "/" --port 3000
 ```
 
 ## Build
@@ -21,13 +21,13 @@ npm start -- --output-public-path "http://localhost:3000/" --port 3000
 * Development version:
 
 ```shell
-npm run build-dev -- --output-public-path "http://localhost:3000/"
+npm run build-dev -- --output-public-path "/"
 ```
 
 * Production version:
 
 ```shell
-npm run build-prod -- --output-public-path "http://localhost:3000/"
+npm run build-prod -- --output-public-path "/"
 ```
 
 ___
