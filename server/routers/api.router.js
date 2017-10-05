@@ -17,7 +17,7 @@ const sendOK = res => () => {
 
 router.use(bodyParser.json())
 
-router.get('/messages/:id', (req, res, next) => {
+const onMessageGet = (req, res, next) => {
   const {id} = req.params
   dbManager.getMessage(Number(id))
     .then(message => {
@@ -28,33 +28,36 @@ router.get('/messages/:id', (req, res, next) => {
       }
     })
     .catch(errorHandler(res))
-})
+}
+router.get('/messages/:id', onMessageGet)
 
-// Update message
-router.put('/messages/:id', (req, res, next) => {
+const onMessageUpdate = (req, res, next) => {
   const message = req.body
   dbManager.updateMessage(message)
     .then(sendOK(res))
     .catch(errorHandler(res))
-})
+}
+router.put('/messages/:id', onMessageUpdate)
 
-router.delete('/messages/:id', (req, res, next) => {
+const onMessageDelete = (req, res, next) => {
   const {id} = req.params
   dbManager.deleteMessage(id)
     .then(sendOK(res))
     .catch(errorHandler(res))
-})
+}
+router.delete('/messages/:id', onMessageDelete)
 
-router.post('/messages/create', (req, res, next) => {
+const onMessageCreate = (req, res, next) => {
   const message = req.body
   dbManager.createMessage(message)
     .then(id => {
       res.json({id})
     })
     .catch(errorHandler(res))
-})
+}
+router.post('/messages/create', onMessageCreate)
 
-router.get('/messages', (req, res, next) => {
+const onMessagesGet = (req, res, next) => {
   dbManager.getAllMessages()
     .then(messages => {
       if (messages) {
@@ -64,10 +67,16 @@ router.get('/messages', (req, res, next) => {
       }
     })
     .catch(errorHandler(res))
-})
+}
+router.get('/messages', onMessagesGet)
 
 module.exports = {
   router,
   errorHandler,
-  sendOK
+  sendOK,
+  onMessageCreate,
+  onMessageDelete,
+  onMessageGet,
+  onMessagesGet,
+  onMessageUpdate
 }
