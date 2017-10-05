@@ -32,7 +32,7 @@ npm run build
 npm run initialize-db
 ```
 
-3. Bootstrap server on provided port:
+3. Bootstrap server on provided port (default `3000`):
 
 ```shell
 npm start --port 3000
