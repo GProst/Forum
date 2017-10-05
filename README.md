@@ -1,5 +1,7 @@
 # Forum
 
+[![Build Status](https://travis-ci.org/GProst/Forum.svg?branch=master)](https://travis-ci.org/GProst/Forum)
+
 ## Requirements
 
 * **Node.js** version **8.6.0+** (may work with previous versions, but not guaranteed)
