@@ -29,22 +29,17 @@ export default {
   },
 
   updateMessage(message) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => { // TODO: real request
-        resolve(true)
-      }, 500)
-    })
+    return axios.put(`/api/messages/${message.id}`, message)
       .catch((err) => {
         throw err
       })
   },
 
   createMessage(message) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => { // TODO: real request
-        resolve(13)
-      }, 500)
-    })
+    return axios.post('/api/messages/create', message)
+      .then(response => {
+        return response.data.id
+      })
       .catch((err) => {
         throw err
       })
