@@ -34,8 +34,7 @@ router.get('/messages/:id', onMessageGet)
 const onMessageUpdate = (req, res, next) => {
   const {id} = req.params
   const message = req.body
-  message.id = id
-  return dbManager.updateMessage(message)
+  return dbManager.updateMessage(message, id)
     .then(sendOK(res))
     .catch(errorHandler(res))
 }

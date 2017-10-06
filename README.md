@@ -86,7 +86,7 @@ ___
 |Url|`/api/messages/:id`|
 |---|---|
 |Method|`PUT`|
-|Request format|`{ header: string, body: string }`|
+|Request format|`{ ?header: string, ?body: string }`|
 
 * Delete message:
 

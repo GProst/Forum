@@ -27,12 +27,13 @@ module.exports = {
     })
   },
 
-  updateMessage(updatedMessage) {
+  updateMessage(updatedFields, id) {
     return new Promise((resolve, reject) => {
-      const {header, body, id} = updatedMessage
+      delete updatedFields.id
+      const sqlUpdateFields = Object.keys(updatedFields).map(field => `${field} = '${updatedFields[field]}'`)
       db.run(`
         UPDATE Messages
-        SET header = '${header}', body = '${body}'
+        SET ${sqlUpdateFields.join(', ')}
         WHERE id = ${id}
       `, (err) => {
         if (err) {
